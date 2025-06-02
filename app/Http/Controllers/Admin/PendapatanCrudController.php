@@ -28,7 +28,7 @@ class PendapatanCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Pendapatan::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pendapatan');
-        CRUD::setEntityNameStrings('pendapatan', 'pendapatans');
+        CRUD::setEntityNameStrings('pendapatan', 'pendapatan');
     }
 
     /**
