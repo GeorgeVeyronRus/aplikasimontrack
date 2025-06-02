@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LaporanKeuanganController;
+use App\Http\Controllers\Admin\LaporanPengeluaranController;
 
 Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
 
@@ -23,7 +24,8 @@ Route::group([
     Route::crud('pengeluaran', 'PengeluaranCrudController');
     Route::crud('kategori-pengeluaran', 'KategoriPengeluaranCrudController');
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'dashboard'])->name('backpack.dashboard');
-    Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
+    Route::get('laporan-keuangan', [App\Http\Controllers\Admin\LaporanPengeluaranController::class, 'index'])->name('laporan.pengeluaran');
+
 }); // this should be the absolute last line of this file
 
 

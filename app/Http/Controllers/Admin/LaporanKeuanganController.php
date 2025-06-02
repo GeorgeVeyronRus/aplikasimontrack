@@ -20,7 +20,7 @@ class LaporanKeuanganController extends Controller
                     ->groupBy('bulan')
                     ->get();
 
-        return view('vendor.backpack.custom.laporan_keuangan', compact(
+        return view('vendor.backpack.custom.laporan_pengeluaran', compact(
             'totalPendapatan',
             'totalPengeluaran',
             'saldo',
