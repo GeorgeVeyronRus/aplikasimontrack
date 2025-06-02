@@ -20,3 +20,5 @@ Route::group([
     Route::crud('pengeluaran', 'PengeluaranCrudController');
     Route::crud('kategori-pengeluaran', 'KategoriPengeluaranCrudController');
 }); // this should be the absolute last line of this file
+
+Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'dashboard'])->name('backpack.dashboard');

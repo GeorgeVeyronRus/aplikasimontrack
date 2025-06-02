@@ -1,21 +1,17 @@
 @extends(backpack_view('blank'))
 
-@php
-    if (config('backpack.base.show_getting_started')) {
-        $widgets['before_content'][] = [
-            'type'        => 'view',
-            'view'        => 'backpack::inc.getting_started',
-        ];
-    } else {
-        $widgets['before_content'][] = [
-            'type'        => 'jumbotron',
-            'heading'     => trans('backpack::base.welcome'),
-            'content'     => trans('backpack::base.use_sidebar'),
-            'button_link' => backpack_url('logout'),
-            'button_text' => trans('backpack::base.logout'),
-        ];
-    }
-@endphp
-
 @section('content')
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Pendapatan (Bulan Ini)</h5>
+                    <p class="card-text h4">
+                        Rp {{ number_format($pendapatanBulanIni ?? 0, 0, ',', '.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
