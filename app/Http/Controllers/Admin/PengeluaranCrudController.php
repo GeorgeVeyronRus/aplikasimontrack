@@ -76,13 +76,25 @@ class PengeluaranCrudController extends CrudController
     {
         CRUD::setValidation([
             'tanggal' => 'required|date',
-            'tipe_pendapatan' => 'required|string|max:255',
+            'kategori_pengeluaran_id' => 'required|exists:kategori_pengeluaran,id',
+            'deskripsi' => 'required',
             'jumlah' => 'required|numeric|min:0',
         ]);
 
         CRUD::field('tanggal')->type('date')->label('Tanggal');
 
-        
+        CRUD::addfield([
+            'name' => 'kategori_pengeluaran_id',
+            'label' => 'Kategori Pengeluaran',
+            'type' => 'select',
+            'entity' => 'kategori_pengeluaran',
+            'model' => \App\Models\KategoriPengeluaran::class,
+            'attribute' => 'nama',
+        ]);
+
+
+        CRUD::field('deskripsi')->label('Deskripsi');
+
 
         CRUD::addField([
             'name' => 'jumlah',

@@ -30,6 +30,13 @@ class KategoriPengeluaranCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/kategori-pengeluaran');
         CRUD::setEntityNameStrings('kategori pengeluaran', 'kategori pengeluaran');
     }
+    public function fetchKategori()
+    {
+        return \App\Models\KategoriPengeluaran::query()
+            ->where('nama', 'like', '%'.request('q').'%')
+            ->paginate(10);
+    }
+
 
     /**
      * Define what happens when the List operation is loaded.
@@ -38,7 +45,7 @@ class KategoriPengeluaranCrudController extends CrudController
      * @return void
      */
     protected function setupListOperation()
-    {
+    {   
         CRUD::column('nama')->label('Nama Kategori');
         CRUD::column('deskripsi')->type('textarea')->label('Deskripsi');
 

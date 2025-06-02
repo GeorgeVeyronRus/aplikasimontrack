@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->foreignId('kategori_pengeluaran_id')->constrained('kategori_pengeluaran')->onDelete('cascade');
-            $table->string('deskripsi'); // contoh: Penjualan, Refund, Diskon
-            $table->unsignedBigInteger('jumlah'); // tanpa desimal, simpan angka bulat (misal 150000)
+            $table->string('deskripsi');
+            $table->unsignedBigInteger('jumlah');
             $table->timestamps();
         });
     }

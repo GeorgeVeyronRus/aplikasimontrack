@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20b56c839ebf59bec5c9b9046b446644",
+    "content-hash": "07bcb372aaa9588cec94aaff0c4f2eef",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -154,6 +154,144 @@
                 "source": "https://github.com/Laravel-Backpack/CRUD/tree/5.6.1"
             },
             "time": "2023-05-19T05:23:42+00:00"
+        },
+        {
+            "name": "backpack/editable-columns",
+            "version": "2.1.8",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Laravel-Backpack/editable-columns.git",
+                "reference": "b9073583f0712909b3d21419dc28b3df1bdb2240"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/editable-columns/backpack-editable-columns-b9073583f0712909b3d21419dc28b3df1bdb2240-zip-c220c6.zip",
+                "reference": "b9073583f0712909b3d21419dc28b3df1bdb2240",
+                "shasum": "7a1af15af5bba4f25a75900c2d56d22926428720"
+            },
+            "require": {
+                "backpack/crud": "^5.3.13"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~5|~6",
+                "phpunit/phpunit": "~9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Backpack\\EditableColumns\\AddonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Backpack\\EditableColumns\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\EditableColumns\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit --testdox"
+                ]
+            },
+            "license": [
+                "EULA"
+            ],
+            "authors": [
+                {
+                    "name": "Cristian Tabacitu",
+                    "email": "cristian.tabacitu@backpackforlaravel.com",
+                    "homepage": "https://backpackforlaravel.com"
+                }
+            ],
+            "description": "Add input columns to your tables, to let your admins edit values right then and there.",
+            "homepage": "https://github.com/backpack/editable-columns",
+            "keywords": [
+                "Backpack",
+                "Backpack Addon",
+                "Backpack for Laravel",
+                "EditableColumns",
+                "Laravel"
+            ],
+            "support": {
+                "source": "https://github.com/Laravel-Backpack/editable-columns/tree/2.1.8",
+                "issues": "https://github.com/Laravel-Backpack/editable-columns/issues"
+            },
+            "time": "2024-02-01T10:39:26+00:00"
+        },
+        {
+            "name": "backpack/pro",
+            "version": "1.6.7",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Laravel-Backpack/PRO.git",
+                "reference": "319de29eac101aab0d27147493ba8c64897bb867"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.backpackforlaravel.com/dist/backpack/pro/backpack-pro-319de29eac101aab0d27147493ba8c64897bb867-zip-61481c.zip",
+                "reference": "319de29eac101aab0d27147493ba8c64897bb867",
+                "shasum": "9722a865243b200d05dcc209ec4ec27c259aa76c"
+            },
+            "require": {
+                "backpack/crud": "^5.4.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~5|~6",
+                "phpunit/phpunit": "~9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Backpack\\Pro\\AddonServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Backpack\\Pro\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\Pro\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit --testdox"
+                ]
+            },
+            "license": [
+                "Proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Cristian Tabacitu",
+                    "email": "cristian.tabacitu@backpackforlaravel.com",
+                    "homepage": "https://backpackforlaravel.com"
+                }
+            ],
+            "description": "Operations, Fields, Columns, Filters and Widgets for not-so-simple admin panels.",
+            "homepage": "https://github.com/digitallyhappy/backpack-pro",
+            "keywords": [
+                "Backpack",
+                "Backpack Addon",
+                "Backpack for Laravel",
+                "Laravel",
+                "Pro"
+            ],
+            "support": {
+                "source": "https://github.com/Laravel-Backpack/PRO/tree/1.6.7",
+                "issues": "https://github.com/Laravel-Backpack/PRO/issues"
+            },
+            "time": "2024-11-18T13:09:49+00:00"
         },
         {
             "name": "brick/math",
