@@ -39,6 +39,7 @@ class Pengeluaran extends Model
         static $rowNumber = 0;
         return ++$rowNumber;
     }
+    
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

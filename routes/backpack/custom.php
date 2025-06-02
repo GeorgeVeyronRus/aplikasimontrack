@@ -22,6 +22,8 @@ Route::group([
     Route::crud('pendapatan', 'PendapatanCrudController');
     Route::crud('pengeluaran', 'PengeluaranCrudController');
     Route::crud('kategori-pengeluaran', 'KategoriPengeluaranCrudController');
-    Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
+    // Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
+    Route::get('laporan-keuangan', [App\Http\Controllers\Admin\LaporanPengeluaranController::class, 'index'])->name('laporan.pengeluaran');
+
 
 }); // this should be the absolute last line of this file
