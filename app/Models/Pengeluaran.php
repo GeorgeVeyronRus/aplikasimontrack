@@ -21,7 +21,7 @@ class Pengeluaran extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['tanggal', 'kategori_pengeluaran','deskripsi','jumlah'];
+    protected $fillable = ['tanggal', 'kategori_pengeluaran_id','deskripsi','jumlah'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -33,6 +33,11 @@ class Pengeluaran extends Model
     public function kategori_pengeluaran()
     {
         return $this->belongsTo(KategoriPengeluaran::class);
+    }
+    public function getRowNumber()
+    {
+        static $rowNumber = 0;
+        return ++$rowNumber;
     }
     /*
     |--------------------------------------------------------------------------

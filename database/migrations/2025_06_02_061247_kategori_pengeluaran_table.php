@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('kategori_pengeluaran', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama'); // nama kategori
-            $table->text('deskripsi')->nullable(); // opsional deskripsi
+            $table->id(); // unsignedBigInteger primary key
+            $table->string('nama');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
 
