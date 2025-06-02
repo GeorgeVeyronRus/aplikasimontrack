@@ -47,14 +47,14 @@ class PendapatanCrudController extends CrudController
         'orderable' => false,
         ]);
         CRUD::column('tanggal')->type('date');
-        CRUD::column('tipe_pendapatan')->label('Tipe Pendapatan');
+        CRUD::column('tipe_pendapatan')->label('Deskripsi');
         CRUD::addColumn([
         'name' => 'jumlah',
         'label' => 'Jumlah',
         'type' => 'closure',
         'function' => function($entry) {
             // format jumlah dengan titik sebagai ribuan separator tanpa desimal
-                return number_format($entry->jumlah, 0, ',', '.') . ' Rp';
+                return 'Rp ' .number_format($entry->jumlah, 0, ',', '.');
             }
         ]);
         /**
@@ -81,13 +81,7 @@ class PendapatanCrudController extends CrudController
 
         CRUD::field('tanggal')->type('date')->label('Tanggal');
 
-        CRUD::field('tipe_pendapatan')->type('select_from_array')->label('Tipe Pendapatan')->options([
-            'Penjualan' => 'Penjualan',
-            'Refund' => 'Refund',
-            'Gaji' => 'Gaji',
-            'lainnya' => 'Lainnya',
-        ]);
-
+        CRUD::field('tipe_pendapatan')->label('Deskripsi');
 
         CRUD::addField([
             'name' => 'jumlah',
