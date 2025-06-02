@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LaporanKeuanganController;
+
+Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
 
 // --------------------------
 // Custom Backpack Routes
@@ -19,4 +22,6 @@ Route::group([
     Route::crud('pendapatan', 'PendapatanCrudController');
     Route::crud('pengeluaran', 'PengeluaranCrudController');
     Route::crud('kategori-pengeluaran', 'KategoriPengeluaranCrudController');
+    Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
+
 }); // this should be the absolute last line of this file
