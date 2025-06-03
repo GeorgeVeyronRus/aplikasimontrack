@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\LaporanKeuanganController;
 use App\Http\Controllers\Admin\LaporanPengeluaranController;
 
 Route::get('laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
+Route::get('/', function () {
+    return redirect('/admin');
+});
 
 // --------------------------
 // Custom Backpack Routes

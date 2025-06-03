@@ -12,6 +12,16 @@
             @endforeach
         </select>
 
+        <label for="kategori" class="mr-2">Kategori</label>
+        <select name="kategori" id="kategori" class="form-control mr-3">
+            <option value="">Semua Kategori</option>
+            @foreach($kategoriList as $k)
+                <option value="{{ $k->id }}" {{ request('kategori') == $k->id ? 'selected' : '' }}>
+                    {{ $k->nama }}
+                </option>
+            @endforeach
+        </select>
+
         <label for="year" class="mr-2">Tahun</label>
         <select name="year" id="year" class="form-control mr-3">
             @foreach($years as $y)

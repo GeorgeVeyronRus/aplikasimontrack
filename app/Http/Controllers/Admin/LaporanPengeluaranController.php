@@ -11,21 +11,26 @@ class LaporanPengeluaranController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil filter bulan & tahun, default bulan dan tahun sekarang
+        // Ambil filter bulan, tahun, dan kategori
         $month = $request->input('month', date('m'));
         $year = $request->input('year', date('Y'));
+        $kategori = $request->input('kategori'); // ← Tambah ini
 
-        // Query pengeluaran di bulan & tahun terpilih, relasi ke kategori pengeluaran
-        $pengeluarans = Pengeluaran::with('kategori_pengeluaran')
+        $kategoriList = KategoriPengeluaran::orderBy('nama')->get();
+
+        // Query data pengeluaran
+        $query = Pengeluaran::with('kategori_pengeluaran')
             ->whereYear('tanggal', $year)
-            ->whereMonth('tanggal', $month)
-            ->orderBy('tanggal', 'asc')
-            ->get();
+            ->whereMonth('tanggal', $month);
 
-        // Total pengeluaran bulan itu
+        if (!empty($kategori)) {
+            $query->where('kategori_pengeluaran_id', $kategori);
+        }
+
+        $pengeluarans = $query->orderBy('tanggal', 'asc')->get();
         $totalPengeluaran = $pengeluarans->sum('jumlah');
 
-        // Untuk dropdown bulan dan tahun di view
+        // Bulan dan Tahun untuk dropdown
         $months = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -40,8 +45,17 @@ class LaporanPengeluaranController extends Controller
             '11' => 'November',
             '12' => 'Desember',
         ];
-        $years = range(date('Y') - 25, date('Y')); // contoh 5 tahun terakhir
+        $years = range(date('Y') - 25, date('Y'));
 
-        return view('vendor.backpack.custom.laporan_pengeluaran', compact('pengeluarans', 'totalPengeluaran', 'months', 'month', 'year', 'years'));
+        return view('vendor.backpack.custom.laporan_pengeluaran', compact(
+            'pengeluarans',
+            'totalPengeluaran',
+            'months',
+            'month',
+            'year',
+            'years',
+            'kategoriList',
+            'kategori' // ← kirim ke view
+        ));
     }
 }
