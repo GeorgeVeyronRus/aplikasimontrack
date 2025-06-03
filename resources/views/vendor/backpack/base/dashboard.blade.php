@@ -91,131 +91,77 @@
                 </select>
             </form>
 
-            <canvas id="incomeChartPendapatan" height="200"></canvas>
+            <canvas id="combinedChart" height="200"></canvas>
         </div>
 
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="incomereportchart mb-0">Laporan Pengeluaran
-                    
-                </h4>
-
-                <a href="{{ url('/admin/laporan-pengeluaran') }}" class="btn btn-primary">
-                Lihat laporan
-                </a>
-            </div>
-
-            <form method="GET" class="mb-3">
-                <select id="rangeSelector" class="form-control w-auto d-inline-block mb-2">
-                <option value="1w">1 Week</option>
-                <option value="1m">1 Month</option>
-                <option value="3m">3 Months</option>
-                <option value="12m" selected>12 Months</option>
-                </select>
-            </form>
-
-            <canvas id="incomeChartPengeluaran" height="200"></canvas>
-        </div>
 @endsection
 
 @push('after_scripts')
 <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" />
 <script>
-    let incomeChart;
-    let expenseChart;
+    let combinedChart;
 
-    function loadIncomeChart(range = '12m') {
-        fetch(`/admin/dashboard/income-report-data-pendapatan?range=${range}`)
-            .then(res => res.json())
-            .then(data => {
-                const labels = data.map(item => item.label);
-                const values = data.map(item => item.pendapatan);
+    function loadCombinedChart(range = '12m') {
+        const pendapatanPromise = fetch(`/admin/dashboard/income-report-data-pendapatan?range=${range}`).then(res => res.json());
+        const pengeluaranPromise = fetch(`/admin/dashboard/income-report-data-pengeluaran?range=${range}`).then(res => res.json());
 
-                if (incomeChart) incomeChart.destroy();
+        Promise.all([pendapatanPromise, pengeluaranPromise]).then(([pendapatanData, pengeluaranData]) => {
+            const labels = pendapatanData.map(item => item.label);
 
-                const ctx = document.getElementById('incomeChartPendapatan').getContext('2d');
-                incomeChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
+            const pendapatanValues = pendapatanData.map(item => item.pendapatan);
+            const pengeluaranValues = pengeluaranData.map(item => item.pengeluaran);
+
+            if (combinedChart) combinedChart.destroy();
+
+            const ctx = document.getElementById('combinedChart').getContext('2d');
+            combinedChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
                             label: 'Pendapatan',
-                            data: values,
-                            borderColor: 'rgb(75, 192, 192)',
+                            data: pendapatanValues,
+                            borderColor: '#42ba96',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             fill: false,
                             tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            });
-    }
-
-    document.getElementById('rangeSelector').addEventListener('change', function () {
-        loadIncomeChart(this.value);
-    });
-
-    loadIncomeChart();
-
-    function loadExpenseChart(range = '12m') {
-        fetch(`/admin/dashboard/income-report-data-pengeluaran?range=${range}`)
-            .then(res => res.json())
-            .then(data => {
-                const labels = data.map(item => item.label);
-                const values = data.map(item => item.pengeluaran);
-
-                if (expenseChart) expenseChart.destroy();
-
-                const ctx = document.getElementById('incomeChartPengeluaran').getContext('2d');
-                expenseChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
+                        },
+                        {
                             label: 'Pengeluaran',
-                            data: values,
-                            borderColor: 'rgb(75, 192, 192)',
+                            data: pengeluaranValues,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             fill: false,
                             tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                                    }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
                                 }
                             }
                         }
                     }
-                });
+                }
             });
+        });
     }
 
     document.getElementById('rangeSelector').addEventListener('change', function () {
-        loadExpenseChart(this.value);
+        loadCombinedChart(this.value);
     });
 
-    loadExpenseChart();
+    loadCombinedChart();
 </script>
-
 @endpush
+
 
 
 

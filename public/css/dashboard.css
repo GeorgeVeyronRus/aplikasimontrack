@@ -24,18 +24,7 @@ form {
 
 
 /* canvas full width sesuai container */
-#incomeChartPendapatan {
-    background-color: white;
-    display: block;
-    width: 100% !important;  /* supaya canvas lebar penuh container */
-    height: 200px;
-    margin-bottom: 30px;
-    border: 1px solid black; /* border hitam */
-    box-sizing: border-box; /* supaya border tidak melebihi lebar */
-}
-
-
-#incomeChartPengeluaran {
+#combinedChart {
     background-color: white;
     display: block;
     width: 100% !important;  /* supaya canvas lebar penuh container */
