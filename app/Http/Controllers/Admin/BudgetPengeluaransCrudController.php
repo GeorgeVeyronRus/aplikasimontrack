@@ -6,6 +6,8 @@ use App\Http\Requests\BudgetPengeluaransRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
+
+
 /**
  * Class BudgetPengeluaransCrudController
  * @package App\Http\Controllers\Admin
@@ -59,12 +61,8 @@ class BudgetPengeluaransCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation([
-            'bulan' => 'required|integer|min:1|max:12',
-            'tahun' => 'required|integer|min:2000|max:2100',
-            'jumlah' => 'required|numeric|min:0',
-        ]);
-
+        CRUD::setValidation(\App\Http\Requests\BudgetPengeluaransRequest::class);
+        
         // Dropdown bulan (1-12)
         $bulanOptions = [];
         foreach (range(1, 12) as $i) {
