@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LaporanKeuanganController;
 use App\Http\Controllers\Admin\LaporanPengeluaranController;
 use App\Http\Controllers\Admin\LaporanPendapatanController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -34,5 +35,9 @@ Route::group([
     Route::get('laporan-keuangan', [App\Http\Controllers\Admin\LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
 
     Route::crud('budget-pengeluarans', 'BudgetPengeluaransCrudController');
+
+    Route::get('/dashboard/income-report-data-pendapatan', [DashboardController::class, 'incomeChartDataPendapatan'])->name('dashboard.income.data');
+    Route::get('/dashboard/income-report-data-pengeluaran', [DashboardController::class, 'incomeChartDataPengeluaran'])->name('dashboard.expense.data');
+
 }); // this should be the absolute last line of this file
 

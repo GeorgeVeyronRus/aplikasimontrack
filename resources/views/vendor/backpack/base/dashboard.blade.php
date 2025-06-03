@@ -1,6 +1,7 @@
 @extends(backpack_view('blank'))
 
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @if($isOverBudget)
         <div class="alert alert-warning">
@@ -8,7 +9,7 @@
         </div>
     @endif
 
-        <div class="row mb-4">
+    <div class="row mb-4">
         <div class="col-md-4 d-flex">
             <div class="card text-white bg-success w-100 h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
@@ -69,5 +70,152 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="incomereportchart mb-0">Laporan Pendapatan
+                    
+                </h4>
+
+                <a href="{{ url('/admin/laporan-pendapatan') }}" class="btn btn-primary">
+                Lihat laporan
+                </a>
+            </div>
+
+            <form method="GET" class="mb-3">
+                <select id="rangeSelector" class="form-control w-auto d-inline-block mb-2">
+                <option value="1w">1 Week</option>
+                <option value="1m">1 Month</option>
+                <option value="3m">3 Months</option>
+                <option value="12m" selected>12 Months</option>
+                </select>
+            </form>
+
+            <canvas id="incomeChartPendapatan" height="200"></canvas>
+        </div>
+
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="incomereportchart mb-0">Laporan Pengeluaran
+                    
+                </h4>
+
+                <a href="{{ url('/admin/laporan-pengeluaran') }}" class="btn btn-primary">
+                Lihat laporan
+                </a>
+            </div>
+
+            <form method="GET" class="mb-3">
+                <select id="rangeSelector" class="form-control w-auto d-inline-block mb-2">
+                <option value="1w">1 Week</option>
+                <option value="1m">1 Month</option>
+                <option value="3m">3 Months</option>
+                <option value="12m" selected>12 Months</option>
+                </select>
+            </form>
+
+            <canvas id="incomeChartPengeluaran" height="200"></canvas>
+        </div>
 @endsection
+
+@push('after_scripts')
+<link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" />
+<script>
+    let incomeChart;
+    let expenseChart;
+
+    function loadIncomeChart(range = '12m') {
+        fetch(`/admin/dashboard/income-report-data-pendapatan?range=${range}`)
+            .then(res => res.json())
+            .then(data => {
+                const labels = data.map(item => item.label);
+                const values = data.map(item => item.pendapatan);
+
+                if (incomeChart) incomeChart.destroy();
+
+                const ctx = document.getElementById('incomeChartPendapatan').getContext('2d');
+                incomeChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Pendapatan',
+                            data: values,
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    }
+
+    document.getElementById('rangeSelector').addEventListener('change', function () {
+        loadIncomeChart(this.value);
+    });
+
+    loadIncomeChart();
+
+    function loadExpenseChart(range = '12m') {
+        fetch(`/admin/dashboard/income-report-data-pengeluaran?range=${range}`)
+            .then(res => res.json())
+            .then(data => {
+                const labels = data.map(item => item.label);
+                const values = data.map(item => item.pengeluaran);
+
+                if (expenseChart) expenseChart.destroy();
+
+                const ctx = document.getElementById('incomeChartPengeluaran').getContext('2d');
+                expenseChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Pengeluaran',
+                            data: values,
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    }
+
+    document.getElementById('rangeSelector').addEventListener('change', function () {
+        loadExpenseChart(this.value);
+    });
+
+    loadExpenseChart();
+</script>
+
+@endpush
+
+
+

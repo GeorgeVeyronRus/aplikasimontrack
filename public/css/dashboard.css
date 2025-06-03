@@ -1,0 +1,46 @@
+.incomereportchart {
+    margin-left: 0;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    text-align: left;
+    width: 100%;
+}
+
+form {
+    text-align: left;
+}
+
+/* container biasanya sudah ada padding, jadi biarkan agar ada ruang */
+.container {
+    margin-left: 15px;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-top: 15px;
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 8px; /* rounded edges */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* soft drop shadow */
+}
+
+
+/* canvas full width sesuai container */
+#incomeChartPendapatan {
+    background-color: white;
+    display: block;
+    width: 100% !important;  /* supaya canvas lebar penuh container */
+    height: 200px;
+    margin-bottom: 30px;
+    border: 1px solid black; /* border hitam */
+    box-sizing: border-box; /* supaya border tidak melebihi lebar */
+}
+
+
+#incomeChartPengeluaran {
+    background-color: white;
+    display: block;
+    width: 100% !important;  /* supaya canvas lebar penuh container */
+    height: 200px;
+    margin-bottom: 30px;
+    border: 1px solid black; /* border hitam */
+    box-sizing: border-box; /* supaya border tidak melebihi lebar */
+}
