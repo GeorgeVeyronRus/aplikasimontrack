@@ -34,6 +34,12 @@ class Pengeluaran extends Model
     {
         return $this->belongsTo(KategoriPengeluaran::class);
     }
+
+    public function getKategoriPengeluaranNama()
+    {
+        return optional($this->kategori_pengeluaran)->nama;
+    }
+
     public function getRowNumber()
     {
         static $rowNumber = 0;

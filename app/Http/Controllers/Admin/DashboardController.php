@@ -8,6 +8,8 @@ use App\Models\Pengeluaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\BudgetPengeluarans;
+use Backpack\CRUD\app\Library\Widget;
+
 
 
 class DashboardController extends Controller
@@ -35,6 +37,8 @@ class DashboardController extends Controller
             $isOverBudget = true;
         }
 
-        return view(backpack_view('dashboard'), compact('pendapatanBulanIni','pengeluaranBulanIni','budgetBulanIni','isOverBudget'));
+        
+
+        return view(backpack_view('dashboard'), compact('bulan','tahun','pendapatanBulanIni','pengeluaranBulanIni','budgetBulanIni','isOverBudget'));
     }
 }
