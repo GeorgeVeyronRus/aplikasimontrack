@@ -5,3 +5,4 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('kategori-pengeluaran') }}"><i class="nav-icon la-tags"></i> Kategori Pengeluaran</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pengeluaran') }}"><i class="nav-icon la la-question"></i> Pengeluaran</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('laporan-keuangan') }}"><i class="nav-icon la la-file-invoice-dollar"></i> Laporan Keuangan</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('budget-pengeluarans') }}"><i class="nav-icon la la-question"></i> Budget pengeluarans</a></li>

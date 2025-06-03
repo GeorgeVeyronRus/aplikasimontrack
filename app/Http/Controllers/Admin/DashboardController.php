@@ -7,6 +7,7 @@ use App\Models\Pendapatan;
 use App\Models\Pengeluaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\BudgetPengeluarans;
 
 
 class DashboardController extends Controller
@@ -24,6 +25,16 @@ class DashboardController extends Controller
             ->whereYear('tanggal', $tahun)
             ->sum('jumlah');
 
-        return view(backpack_view('dashboard'), compact('pendapatanBulanIni','pengeluaranBulanIni'));
+        $budgetBulanIni = BudgetPengeluarans::where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->value('jumlah');
+
+        $isOverBudget = false;
+
+        if ($budgetBulanIni !== null && $pengeluaranBulanIni > $budgetBulanIni) {
+            $isOverBudget = true;
+        }
+
+        return view(backpack_view('dashboard'), compact('pendapatanBulanIni','pengeluaranBulanIni','budgetBulanIni','isOverBudget'));
     }
 }
