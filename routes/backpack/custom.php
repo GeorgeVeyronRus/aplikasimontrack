@@ -27,15 +27,12 @@ Route::group([
     Route::crud('pengeluaran', 'PengeluaranCrudController');
     Route::crud('kategori-pengeluaran', 'KategoriPengeluaranCrudController');
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'dashboard'])->name('backpack.dashboard');
-<<<<<<< HEAD
     Route::get('laporan-pengeluaran', [App\Http\Controllers\Admin\LaporanPengeluaranController::class, 'index'])->name('laporan.pengeluaran');
     Route::get('laporan-pengeluaran', [LaporanPengeluaranController::class, 'index'])->name('laporan.keuangan');
     Route::get('laporan-pendapatan', [LaporanPendapatanController::class, 'index'])->name('laporan.pendapatan');
     Route::get('laporan-pendapatan', [App\Http\Controllers\Admin\LaporanPendapatanController::class, 'index'])->name('laporan.pendapatan');
-=======
     Route::get('laporan-keuangan', [App\Http\Controllers\Admin\LaporanPengeluaranController::class, 'index'])->name('laporan.pengeluaran');
 
     Route::crud('budget-pengeluarans', 'BudgetPengeluaransCrudController');
->>>>>>> 38edaa7a89d059ad47a0d276880059a9d6078f37
 }); // this should be the absolute last line of this file
 
