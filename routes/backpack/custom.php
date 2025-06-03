@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LaporanPengeluaranController;
 use App\Http\Controllers\Admin\LaporanPendapatanController;
 use App\Http\Controllers\Admin\DashboardController;
 
+
 Route::get('/', function () {
     return redirect('/admin');
 });
@@ -33,7 +34,10 @@ Route::group([
     Route::get('laporan-pendapatan', [LaporanPendapatanController::class, 'index'])->name('laporan.pendapatan');
     Route::get('laporan-pendapatan', [App\Http\Controllers\Admin\LaporanPendapatanController::class, 'index'])->name('laporan.pendapatan');
     Route::get('laporan-keuangan', [App\Http\Controllers\Admin\LaporanKeuanganController::class, 'index'])->name('laporan.keuangan');
-
+    Route::get('admin/laporan-pendapatan/pdf', [App\Http\Controllers\Admin\LaporanPendapatanController::class, 'exportPdf'])->name('laporan-pendapatan.pdf');
+    Route::get('laporan-pengeluaran/pdf', [LaporanPengeluaranController::class, 'exportPdf'])->name('laporan-pengeluaran.pdf');
+    Route::get('admin/laporan-keuangan/pdf', [LaporanKeuanganController::class, 'exportPdf'])->name('laporan-keuangan.pdf');
+    
     Route::crud('budget-pengeluarans', 'BudgetPengeluaransCrudController');
 
     Route::get('/dashboard/income-report-data-pendapatan', [DashboardController::class, 'incomeChartDataPendapatan'])->name('dashboard.income.data');
