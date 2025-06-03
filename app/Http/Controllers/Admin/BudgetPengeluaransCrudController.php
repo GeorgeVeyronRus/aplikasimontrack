@@ -28,7 +28,7 @@ class BudgetPengeluaransCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\BudgetPengeluarans::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/budget-pengeluarans');
-        CRUD::setEntityNameStrings('budget pengeluarans', 'budget pengeluarans');
+        CRUD::setEntityNameStrings('budget pengeluaran', 'budget pengeluaran');
     }
 
     /**
@@ -65,8 +65,36 @@ class BudgetPengeluaransCrudController extends CrudController
             'jumlah' => 'required|numeric|min:0',
         ]);
 
-        CRUD::addField(['name' => 'bulan', 'label' => 'Bulan', 'type' => 'number']);
-        CRUD::addField(['name' => 'tahun', 'label' => 'Tahun', 'type' => 'number']);
+        // Dropdown bulan (1-12)
+        $bulanOptions = [];
+        foreach (range(1, 12) as $i) {
+            $bulanOptions[$i] = $i;
+        }
+
+        CRUD::addField([
+            'name' => 'bulan',
+            'label' => 'Bulan',
+            'type' => 'select_from_array',
+            'options' => $bulanOptions,
+            'allows_null' => false,
+            'default' => date('n'), // bulan sekarang
+        ]);
+
+        // Dropdown tahun (2020 - sekarang + 10)
+        $currentYear = date('Y');
+        $tahunOptions = [];
+        foreach (range(2020, $currentYear + 10) as $year) {
+            $tahunOptions[$year] = $year;
+        }
+
+        CRUD::addField([
+            'name' => 'tahun',
+            'label' => 'Tahun',
+            'type' => 'select_from_array',
+            'options' => $tahunOptions,
+            'allows_null' => false,
+            'default' => $currentYear,
+        ]);
         CRUD::addField([
             'name' => 'jumlah',
             'label' => 'Jumlah',
