@@ -8,3 +8,4 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('laporan-pendapatan') }}"><i class="nav-icon la la-chart-line"></i> Laporan Pendapatan</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('laporan-pengeluaran') }}"><i class="nav-icon la la-chart-pie"></i> Laporan Pengeluaran</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('laporan-keuangan') }}"><i class="nav-icon la la-file-invoice-dollar"></i> Laporan Keuangan</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('Ilmu Keuangan') }}"><i class="nav-icon la la-book"></i> Ilmu Keuangan</a></li>
