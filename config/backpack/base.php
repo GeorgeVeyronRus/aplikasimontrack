@@ -85,7 +85,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>Back</b>pack',
+    'project_logo'   => '<img src="/images/montracklogo.png" style="height:40px;">',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,

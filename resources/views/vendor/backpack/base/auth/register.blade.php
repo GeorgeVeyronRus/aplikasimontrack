@@ -1,6 +1,9 @@
 @extends(backpack_view('layouts.plain'))
 
 @section('content')
+<div class="text-center mb-4">
+    <img src="{{ asset('images/montracklogo.png') }}" alt="Logo" style="max-width: 200px; height: auto;">
+</div>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-4">
             <h3 class="text-center mb-4">{{ trans('backpack::base.register') }}</h3>
