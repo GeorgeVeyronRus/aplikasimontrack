@@ -1,5 +1,16 @@
 @extends(backpack_view('blank'))
 
+@section('header')
+    <section class="container-fluid">
+        <div class="d-flex justify-content-end">
+            <ol class="breadcrumb bg-transparent px-0 pb-0 mb-0">
+                <li class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Admin</a></li>
+                <li class="breadcrumb-item active">Laporan Keuangan</li>
+            </ol>
+        </div>
+    </section>
+@endsection
+
 @section('content')
     <div class="container mt-4">
         <h2>Laporan Pendapatan</h2>

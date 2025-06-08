@@ -15,7 +15,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="card-title">Pendapatan</h5>
-                        <p class="card-text mb">Pendapatan Anda bulan {{$bulan}}</p>
+                        <p class="card-text mb">Pendapatan Anda bulan di {{$bulan}}</p>
                         <p class="card-text h4 mb-0">
                             Rp {{ number_format($pendapatanBulanIni ?? 0, 0, ',', '.') }}
                         </p>
@@ -32,7 +32,7 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="card-title">Pengeluaran</h5>
-                        <p class="card-text mb">Pengeluaran Anda bulan {{$bulan}}</p>
+                        <p class="card-text mb">Pengeluaran Anda bulan di {{$bulan}}</p>
                         <p class="card-text h4 mb-0">
                             Rp {{ number_format($pengeluaranBulanIni ?? 0, 0, ',', '.') }}
                         </p>
@@ -73,13 +73,18 @@
 
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="incomereportchart mb-0">Laporan Pendapatan
-                    
+                <h4 class="incomereportchart mb-0 flex-grow-1">
+                    Laporan Pendapatan & Pengeluaran
                 </h4>
 
-                <a href="{{ url('/admin/laporan-pendapatan') }}" class="btn btn-primary">
-                Lihat laporan
-                </a>
+                <div class="d-flex" style="gap: 0.5rem;">
+                    <a href="{{ url('/admin/laporan-pendapatan') }}" class="btn btn-success">
+                        Lihat laporan Pendapatan
+                    </a>
+                    <a href="{{ url('/admin/laporan-pengeluaran') }}" class="btn btn-danger">
+                        Lihat laporan Pengeluaran
+                    </a>
+                </div>
             </div>
 
             <form method="GET" class="mb-3">
