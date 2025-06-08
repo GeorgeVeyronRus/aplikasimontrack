@@ -108,6 +108,22 @@
             </form>
 
             <canvas id="combinedChart" height="200"></canvas>
+
+            <div class="container">
+                <h3>Pie Chart Pengeluaran per Kategori</h3>
+
+                <form method="GET" class="mb-3">
+                    <select id="rangeSelector" class="form-control w-auto d-inline-block mb-2">
+                        <option value="1w">1 Week</option>
+                        <option value="1m">1 Month</option>
+                        <option value="3m">3 Months</option>
+                        <option value="12m" selected>12 Months</option>
+                    </select>
+                </form>
+
+                <canvas id="pieChartPengeluaran" style="max-width: 600px;"></canvas>
+            </div>
+
         </div>
 
 @endsection
@@ -174,7 +190,81 @@
         loadCombinedChart(this.value);
     });
 
-    loadCombinedChart();
+    loadCombinedChart(); 
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('pieChartPengeluaran').getContext('2d');
+    let pieChart;
+
+    const fetchDataAndRender = (range) => {
+        fetch(`{{ route('dashboard.pieChartPengeluaran') }}?range=${range}`)
+            .then(response => response.json())
+            .then(data => {
+                const chartData = {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.totals,
+                        backgroundColor: generateColors(data.totals.length),
+                    }]
+                };
+
+                if (pieChart) {
+                    pieChart.data = chartData;
+                    pieChart.update();
+                } else {
+                    pieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.label || '';
+                                            let value = context.parsed || 0;
+                                            return `${label}: Rp ${value.toLocaleString()}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            })
+            .catch(err => console.error('Error fetching pie chart data:', err));
+    };
+
+    // Fungsi buat generate warna random tapi stabil
+    function generateColors(num) {
+        const colors = [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+            '#9966FF', '#FF9F40', '#C9CBCF', '#8BC34A',
+            '#E91E63', '#00BCD4', '#FFC107', '#9C27B0'
+        ];
+        if(num <= colors.length) {
+            return colors.slice(0, num);
+        }
+        // Kalau lebih banyak, ulangi warna
+        let result = [];
+        for(let i = 0; i < num; i++) {
+            result.push(colors[i % colors.length]);
+        }
+        return result;
+    }
+
+    // Inisialisasi chart dengan default range 12m
+    fetchDataAndRender('12m');
+
+    // Event listener dropdown change
+    document.getElementById('rangeSelector').addEventListener('change', function() {
+        fetchDataAndRender(this.value);
+    });
+});
+        
 </script>
 @endpush
 

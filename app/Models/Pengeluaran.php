@@ -30,7 +30,7 @@ class Pengeluaran extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function kategori_pengeluaran()
+    public function kategori_pengeluaran()  
     {
         return $this->belongsTo(KategoriPengeluaran::class);
     }

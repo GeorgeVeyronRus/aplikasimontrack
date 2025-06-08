@@ -157,4 +157,21 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
+    public function pieChartDataPengeluaran()
+    {
+        $data = \App\Models\Pengeluaran::selectRaw('kategori_pengeluaran_id, SUM(jumlah) as total')
+            ->where('user_id', backpack_user()->id)
+            ->groupBy('kategori_pengeluaran_id')
+            ->with('kategori_pengeluaran')
+            ->get();
+
+        $labels = $data->map(fn($item) => $item->kategori_pengeluaran ? $item->kategori_pengeluaran->nama : 'Tidak diketahui');
+        $totals = $data->map(fn($item) => (float) $item->total);
+
+        return response()->json([
+            'labels' => $labels,
+            'totals' => $totals,
+        ]);
+    }
+
 }
