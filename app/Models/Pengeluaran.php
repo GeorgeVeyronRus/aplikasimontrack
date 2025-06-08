@@ -45,6 +45,15 @@ class Pengeluaran extends Model
         static $rowNumber = 0;
         return ++$rowNumber;
     }
+
+    
+
+    protected static function booted()
+    {
+        static::creating(function ($pengeluaran) {
+            $pengeluaran->user_id = backpack_user()->id;
+        });
+    }
     
     /*
     |--------------------------------------------------------------------------

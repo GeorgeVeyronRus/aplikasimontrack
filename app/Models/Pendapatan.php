@@ -35,6 +35,19 @@ class Pendapatan extends Model
         static $rowNumber = 0;
         return ++$rowNumber;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($pendapatan) {
+            $pendapatan->user_id = backpack_user()->id;
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

@@ -29,6 +29,8 @@ class PendapatanCrudController extends CrudController
         CRUD::setModel(\App\Models\Pendapatan::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pendapatan');
         CRUD::setEntityNameStrings('pendapatan', 'pendapatan');
+
+        $this->crud->addClause('where', 'user_id', backpack_user()->id);
     }
 
     /**
@@ -72,7 +74,6 @@ class PendapatanCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-
         CRUD::setValidation([
             'tanggal' => 'required|date',
             'tipe_pendapatan' => 'required|string|max:255',
@@ -80,7 +81,6 @@ class PendapatanCrudController extends CrudController
         ]);
 
         CRUD::field('tanggal')->type('date')->label('Tanggal');
-
         CRUD::field('tipe_pendapatan')->label('Deskripsi');
 
         CRUD::addField([
@@ -94,12 +94,8 @@ class PendapatanCrudController extends CrudController
             'suffix' => '',
         ]);
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
-         */
     }
+
 
     /**
      * Define what happens when the Update operation is loaded.

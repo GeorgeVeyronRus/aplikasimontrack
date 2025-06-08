@@ -31,6 +31,8 @@ class BudgetPengeluaransCrudController extends CrudController
         CRUD::setModel(\App\Models\BudgetPengeluarans::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/budget-pengeluarans');
         CRUD::setEntityNameStrings('budget pengeluaran', 'budget pengeluaran');
+
+        $this->crud->addClause('where', 'user_id', backpack_user()->id);
     }
 
     /**

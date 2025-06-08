@@ -30,7 +30,17 @@ class BudgetPengeluarans extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
+    protected static function booted()
+    {
+        static::creating(function ($budgetpengeluaran) {
+            $budgetpengeluaran->user_id = backpack_user()->id;
+        });
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

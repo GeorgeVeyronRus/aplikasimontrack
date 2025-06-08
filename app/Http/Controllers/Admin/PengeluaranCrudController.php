@@ -29,6 +29,8 @@ class PengeluaranCrudController extends CrudController
         CRUD::setModel(\App\Models\Pengeluaran::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pengeluaran');
         CRUD::setEntityNameStrings('pengeluaran', 'pengeluaran');
+
+         $this->crud->addClause('where', 'user_id', backpack_user()->id);
     }
 
     /**
