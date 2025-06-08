@@ -20,15 +20,18 @@ class DashboardController extends Controller
         $bulan = Carbon::now()->month;
         $tahun = Carbon::now()->year;
 
-        $pendapatanBulanIni = Pendapatan::whereMonth('tanggal', $bulan)
+        $pendapatanBulanIni = Pendapatan::where('user_id', backpack_user()->id) // <--- tambah ini
+            ->whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('jumlah');
         
-        $pengeluaranBulanIni = Pengeluaran::whereMonth('tanggal', $bulan)
+        $pengeluaranBulanIni = Pengeluaran::where('user_id', backpack_user()->id) // <--- tambah ini
+            ->whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->sum('jumlah');
 
-        $budgetBulanIni = BudgetPengeluarans::where('bulan', $bulan)
+        $budgetBulanIni = BudgetPengeluarans::where('user_id', backpack_user()->id) // <--- tambah ini
+            ->where('bulan', $bulan)
             ->where('tahun', $tahun)
             ->value('jumlah');
 
@@ -38,10 +41,9 @@ class DashboardController extends Controller
             $isOverBudget = true;
         }
 
-        
-
         return view(backpack_view('dashboard'), compact('bulan','tahun','pendapatanBulanIni','pengeluaranBulanIni','budgetBulanIni','isOverBudget'));
     }
+
 
     public function incomeChartDataPendapatan(Request $request)
     {
@@ -53,7 +55,10 @@ class DashboardController extends Controller
             case '1w':
                 for ($i = 6; $i >= 0; $i--) {
                     $date = $now->copy()->subDays($i)->format('Y-m-d');
-                    $pendapatan = DB::table('pendapatan')->whereDate('tanggal', $date)->sum('jumlah');
+                    $pendapatan = DB::table('pendapatan')
+                        ->where('user_id', backpack_user()->id) // filter user
+                        ->whereDate('tanggal', $date)
+                        ->sum('jumlah');
                     $data[] = ['label' => Carbon::parse($date)->format('D'), 'pendapatan' => $pendapatan];
                 }
                 break;
@@ -61,7 +66,10 @@ class DashboardController extends Controller
             case '1m':
                 for ($i = 29; $i >= 0; $i--) {
                     $date = $now->copy()->subDays($i)->format('Y-m-d');
-                    $pendapatan = DB::table('pendapatan')->whereDate('tanggal', $date)->sum('jumlah');
+                    $pendapatan = DB::table('pendapatan')
+                        ->where('user_id', backpack_user()->id) // filter user
+                        ->whereDate('tanggal', $date)
+                        ->sum('jumlah');
                     $data[] = ['label' => Carbon::parse($date)->format('d M'), 'pendapatan' => $pendapatan];
                 }
                 break;
@@ -70,6 +78,7 @@ class DashboardController extends Controller
                 for ($i = 2; $i >= 0; $i--) {
                     $date = $now->copy()->subMonths($i);
                     $pendapatan = DB::table('pendapatan')
+                        ->where('user_id', backpack_user()->id) // filter user
                         ->whereYear('tanggal', $date->year)
                         ->whereMonth('tanggal', $date->month)
                         ->sum('jumlah');
@@ -81,6 +90,7 @@ class DashboardController extends Controller
                 for ($i = 11; $i >= 0; $i--) {
                     $date = $now->copy()->subMonths($i);
                     $pendapatan = DB::table('pendapatan')
+                        ->where('user_id', backpack_user()->id) // filter user
                         ->whereYear('tanggal', $date->year)
                         ->whereMonth('tanggal', $date->month)
                         ->sum('jumlah');
@@ -101,7 +111,10 @@ class DashboardController extends Controller
             case '1w':
                 for ($i = 6; $i >= 0; $i--) {
                     $date = $now->copy()->subDays($i)->format('Y-m-d');
-                    $pengeluaran = DB::table('pengeluaran')->whereDate('tanggal', $date)->sum('jumlah');
+                    $pengeluaran = DB::table('pengeluaran')
+                        ->where('user_id', backpack_user()->id) // filter user
+                        ->whereDate('tanggal', $date)
+                        ->sum('jumlah');
                     $data[] = ['label' => Carbon::parse($date)->format('D'), 'pengeluaran' => $pengeluaran];
                 }
                 break;
@@ -109,7 +122,10 @@ class DashboardController extends Controller
             case '1m':
                 for ($i = 29; $i >= 0; $i--) {
                     $date = $now->copy()->subDays($i)->format('Y-m-d');
-                    $pengeluaran = DB::table('pengeluaran')->whereDate('tanggal', $date)->sum('jumlah');
+                    $pengeluaran = DB::table('pengeluaran')
+                        ->where('user_id', backpack_user()->id) // filter user
+                        ->whereDate('tanggal', $date)
+                        ->sum('jumlah');
                     $data[] = ['label' => Carbon::parse($date)->format('d M'), 'pengeluaran' => $pengeluaran];
                 }
                 break;
@@ -118,6 +134,7 @@ class DashboardController extends Controller
                 for ($i = 2; $i >= 0; $i--) {
                     $date = $now->copy()->subMonths($i);
                     $pengeluaran = DB::table('pengeluaran')
+                        ->where('user_id', backpack_user()->id) // filter user
                         ->whereYear('tanggal', $date->year)
                         ->whereMonth('tanggal', $date->month)
                         ->sum('jumlah');
@@ -129,6 +146,7 @@ class DashboardController extends Controller
                 for ($i = 11; $i >= 0; $i--) {
                     $date = $now->copy()->subMonths($i);
                     $pengeluaran = DB::table('pengeluaran')
+                        ->where('user_id', backpack_user()->id) // filter user
                         ->whereYear('tanggal', $date->year)
                         ->whereMonth('tanggal', $date->month)
                         ->sum('jumlah');
@@ -138,4 +156,5 @@ class DashboardController extends Controller
 
         return response()->json($data);
     }
+
 }
