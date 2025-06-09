@@ -65,11 +65,27 @@ class KategoriPengeluaranCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation([
-            'nama' => 'required|max:30',
-            'deskripsi' => 'required|string|max:100'
+        'nama' => 'required|max:30',
+        'deskripsi' => 'string|max:100'
         ]);
-        CRUD::field('nama')->label('Nama');
-        CRUD::field('deskripsi')->label('Deskripsi')->limit(100);
+
+        CRUD::addField([
+            'name' => 'nama',
+            'label' => 'Nama',
+            'type' => 'text',
+            'attributes' => [
+                'placeholder' => 'Masukkan nama kategori',
+            ],
+        ]);
+
+        CRUD::addField([
+            'name' => 'deskripsi',
+            'label' => 'Deskripsi',
+            'type' => 'textarea', // atau 'text' tergantung kebutuhan kamu
+            'attributes' => [
+                'placeholder' => 'Masukkan deskripsi (opsional)',
+            ],
+        ]);
         
 
         /**

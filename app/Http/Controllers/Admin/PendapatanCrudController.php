@@ -81,7 +81,14 @@ class PendapatanCrudController extends CrudController
         ]);
 
         CRUD::field('tanggal')->type('date')->label('Tanggal');
-        CRUD::field('tipe_pendapatan')->label('Deskripsi');
+
+        CRUD::addField([
+            'name' => 'tipe_pendapatan',
+            'label' => 'Deskripsi',
+            'attributes' => [
+            'placeholder' => 'Masukkan Deskripsi Pendapatan',
+            ]
+        ]);
 
         CRUD::addField([
             'name' => 'jumlah',
@@ -89,6 +96,7 @@ class PendapatanCrudController extends CrudController
             'type' => 'number',
             'attributes' => [
                 'min' => 0,
+                'placeholder' => 'Masukkan Jumlah Pendapatan',
             ],
             'prefix' => 'Rp ',
             'suffix' => '',

@@ -100,6 +100,9 @@ class BudgetPengeluaransCrudController extends CrudController
             'label' => 'Jumlah',
             'type' => 'number',
             'prefix' => 'Rp ',
+            'attributes' => [
+                'placeholder' => 'Masukkan Budget Pengeluaran',
+            ],
         ]);
     }
 

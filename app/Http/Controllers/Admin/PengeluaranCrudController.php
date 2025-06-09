@@ -95,7 +95,13 @@ class PengeluaranCrudController extends CrudController
         ]);
 
 
-        CRUD::field('deskripsi')->label('Deskripsi');
+        CRUD::addField([
+            'name' => 'deskripsi',
+            'label' => 'Deskripsi',
+            'attributes' => [
+            'placeholder' => 'Masukkan Deskripsi Pengeluaran',
+            ]
+        ]);
 
 
         CRUD::addField([
@@ -104,6 +110,7 @@ class PengeluaranCrudController extends CrudController
             'type' => 'number',
             'attributes' => [
                 'min' => 0,
+                'placeholder' => 'Masukkan Jumlah Pengeluaran',
             ],
             'prefix' => 'Rp ',
             'suffix' => '',
