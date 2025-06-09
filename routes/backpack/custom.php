@@ -42,6 +42,6 @@ Route::group([
 
     Route::get('/dashboard/income-report-data-pendapatan', [DashboardController::class, 'incomeChartDataPendapatan'])->name('dashboard.income.data');
     Route::get('/dashboard/income-report-data-pengeluaran', [DashboardController::class, 'incomeChartDataPengeluaran'])->name('dashboard.expense.data');
-    Route::get('/dashboard/pie-chart-pengeluaran', [DashboardController::class, 'pieChartDataPengeluaran'])->name('dashboard.pieChartPengeluaran');
+    Route::get('/dashboard/expense-by-category-this-month', [DashboardController::class, 'expenseByCategoryThisMonth'])->name('dashboard.expense.by.category.thismonth');
 }); // this should be the absolute last line of this file
 

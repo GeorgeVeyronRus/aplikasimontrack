@@ -109,19 +109,23 @@
 
             <canvas id="combinedChart" height="200"></canvas>
 
-            <div class="container">
-                <h3>Pie Chart Pengeluaran per Kategori</h3>
-
-                <form method="GET" class="mb-3">
-                    <select id="rangeSelector" class="form-control w-auto d-inline-block mb-2">
-                        <option value="1w">1 Week</option>
-                        <option value="1m">1 Month</option>
-                        <option value="3m">3 Months</option>
-                        <option value="12m" selected>12 Months</option>
-                    </select>
-                </form>
-
-                <canvas id="pieChartPengeluaran" style="max-width: 600px;"></canvas>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <b>Pengeluaran Berdasarkan Kategori (Bulan Ini)</b>
+                        </div>
+                        <div class="card-body d-flex flex-row flex-wrap" style="min-height:400px;">
+                            <div style="flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center;">
+                                <canvas id="pieExpenseByCategoryThisMonth" style="width: 100%; max-width: 500px; height: 400px;"></canvas>
+                            </div>
+                            <div class="ps-4" style="flex: 1 1 0; min-width: 0;">
+                                <h5 class="mb-3">Rincian Kategori</h5>
+                                <div id="categoryDetailsList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -192,78 +196,76 @@
 
     loadCombinedChart(); 
 
-    document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('pieChartPengeluaran').getContext('2d');
-    let pieChart;
+    let pieExpenseByCategoryThisMonthChart;
 
-    const fetchDataAndRender = (range) => {
-        fetch(`{{ route('dashboard.pieChartPengeluaran') }}?range=${range}`)
-            .then(response => response.json())
+    function loadPieExpenseByCategoryThisMonth() {
+        fetch('/admin/dashboard/expense-by-category-this-month')
+            .then(res => res.json())
             .then(data => {
-                const chartData = {
-                    labels: data.labels,
-                    datasets: [{
-                        data: data.totals,
-                        backgroundColor: generateColors(data.totals.length),
-                    }]
-                };
+                const ctxPie = document.getElementById('pieExpenseByCategoryThisMonth').getContext('2d');
+                const detailsList = document.getElementById('categoryDetailsList');
 
-                if (pieChart) {
-                    pieChart.data = chartData;
-                    pieChart.update();
-                } else {
-                    pieChart = new Chart(ctx, {
-                        type: 'pie',
-                        data: chartData,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'right',
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.label || '';
-                                            let value = context.parsed || 0;
-                                            return `${label}: Rp ${value.toLocaleString()}`;
-                                        }
+                if (pieExpenseByCategoryThisMonthChart) pieExpenseByCategoryThisMonthChart.destroy();
+                detailsList.innerHTML = '';
+
+                if (!data.length) {
+                    ctxPie.clearRect(0, 0, 400, 400);
+                    ctxPie.font = "16px Arial";
+                    ctxPie.fillText("Tidak ada data pengeluaran", 50, 100);
+                    return;
+                }
+
+                const labels = data.map(item => item.kategori);
+                const values = data.map(item => item.total);
+                const totalSemua = values.reduce((acc, val) => acc + val, 0);
+                const backgroundColors = labels.map(() => '#' + Math.floor(Math.random()*16777215).toString(16));
+
+                // Generate daftar kategori dan persentase
+                data.forEach((item, index) => {
+                    const percent = ((item.total / totalSemua) * 100).toFixed(1);
+                    const color = backgroundColors[index];
+                    const div = document.createElement('div');
+                    div.classList.add('mb-2');
+                    div.innerHTML = `
+                        <span class="badge me-2" style="background-color: ${color};">&nbsp;&nbsp;</span>
+                        <strong>${item.kategori}</strong>: Rp ${new Intl.NumberFormat('id-ID').format(item.total)} 
+                        (<span class="text-muted">${percent}%</span>)
+                    `;
+                    detailsList.appendChild(div);
+                });
+
+                pieExpenseByCategoryThisMonthChart = new Chart(ctxPie, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: backgroundColors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // penting agar tinggi mengikuti container
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        let value = context.parsed || 0;
+                                        return label + ': Rp ' + new Intl.NumberFormat('id-ID').format(value);
                                     }
                                 }
                             }
                         }
-                    });
-                }
-            })
-            .catch(err => console.error('Error fetching pie chart data:', err));
-    };
-
-    // Fungsi buat generate warna random tapi stabil
-    function generateColors(num) {
-        const colors = [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-            '#9966FF', '#FF9F40', '#C9CBCF', '#8BC34A',
-            '#E91E63', '#00BCD4', '#FFC107', '#9C27B0'
-        ];
-        if(num <= colors.length) {
-            return colors.slice(0, num);
-        }
-        // Kalau lebih banyak, ulangi warna
-        let result = [];
-        for(let i = 0; i < num; i++) {
-            result.push(colors[i % colors.length]);
-        }
-        return result;
+                    }
+                });
+            });
     }
 
-    // Inisialisasi chart dengan default range 12m
-    fetchDataAndRender('12m');
-
-    // Event listener dropdown change
-    document.getElementById('rangeSelector').addEventListener('change', function() {
-        fetchDataAndRender(this.value);
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPieExpenseByCategoryThisMonth();
     });
-});
         
 </script>
 @endpush

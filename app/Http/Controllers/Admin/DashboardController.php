@@ -157,21 +157,27 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
-    public function pieChartDataPengeluaran()
+    public function expenseByCategoryThisMonth()
     {
-        $data = \App\Models\Pengeluaran::selectRaw('kategori_pengeluaran_id, SUM(jumlah) as total')
-            ->where('user_id', backpack_user()->id)
+        $userId = backpack_user()->id;
+        $now    = Carbon::now();
+
+        $pengeluaran = \App\Models\Pengeluaran::with('kategori_pengeluaran')   
+            ->where('user_id', $userId)
+            ->whereMonth('tanggal', $now->month)
+            ->whereYear('tanggal', $now->year)
+            ->get()
             ->groupBy('kategori_pengeluaran_id')
-            ->with('kategori_pengeluaran')
-            ->get();
+            ->map(function ($items) {
+                return [
+                    'kategori' => optional($items->first()->kategori_pengeluaran)->nama   
+                                ?? 'Tanpa Kategori',
+                    'total'    => $items->sum('jumlah'),
+                ];
+            })
+            ->values();
 
-        $labels = $data->map(fn($item) => $item->kategori_pengeluaran ? $item->kategori_pengeluaran->nama : 'Tidak diketahui');
-        $totals = $data->map(fn($item) => (float) $item->total);
-
-        return response()->json([
-            'labels' => $labels,
-            'totals' => $totals,
-        ]);
+        return response()->json($pengeluaran);
     }
 
 }
