@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Pengeluaran;
 use App\Models\KategoriPengeluaran;
@@ -21,8 +22,10 @@ class LaporanPengeluaranController extends Controller
 
         // Query data pengeluaran
         $query = Pengeluaran::with('kategori_pengeluaran')
+            ->where('user_id', backpack_user()->id) // ← tambahkan ini
             ->whereYear('tanggal', $year)
             ->whereMonth('tanggal', $month);
+            
 
         if (!empty($kategori)) {
             $query->where('kategori_pengeluaran_id', $kategori);
@@ -66,7 +69,8 @@ class LaporanPengeluaranController extends Controller
         $year = $request->input('year', date('Y'));
         $kategori = $request->input('kategori');
 
-        $query = Pengeluaran::with('kategori_pengeluaran')
+       $query = Pengeluaran::with('kategori_pengeluaran')
+             ->where('user_id', backpack_user()->id)
             ->whereYear('tanggal', $year)
             ->whereMonth('tanggal', $month);
 

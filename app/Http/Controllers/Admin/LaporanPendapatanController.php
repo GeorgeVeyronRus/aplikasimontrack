@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pendapatan;
 use PDF;
 
@@ -18,7 +19,9 @@ class LaporanPendapatanController extends Controller
         // Query data pendapatan sesuai filter
         $query = Pendapatan::query()
             ->whereYear('tanggal', $year)
-            ->whereMonth('tanggal', $month);
+            ->whereMonth('tanggal', $month)
+            ->where('user_id', backpack_user()->id);
+
 
         $pendapatans = $query->orderBy('tanggal', 'asc')->get();
 
@@ -57,8 +60,10 @@ class LaporanPendapatanController extends Controller
     {
         $month = $request->input('month', date('m'));
         $year  = $request->input('year',  date('Y'));
+        $userId = backpack_user()->id;
 
-        $pendapatans = Pendapatan::whereYear('tanggal', $year)
+        $pendapatans = Pendapatan::where('user_id', $userId)
+            ->whereYear('tanggal', $year)
             ->whereMonth('tanggal', $month)
             ->orderBy('tanggal', 'asc')
             ->get();
